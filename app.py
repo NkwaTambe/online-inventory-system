@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request, redirect, jsonify, Response
+from werkzeug.security import check_password_hash
+from passlib.hash import bcrypt
+from flask import Flask, render_template, request, redirect, jsonify, Response, flash, get_flashed_messages, url_for
 import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///OIS.db'
+app.secret_key = 'your_secret_key_here'
 db=SQLAlchemy(app)
 
 class Location(db.Model):
@@ -26,6 +29,7 @@ class Location(db.Model):
 class Employee(db.Model):
     __tablename__="employees"
     id=db.Column(db.Integer, primary_key=True)
+    password=db.Column(db.String(20))
     employee_name=db.Column(db.String(20))
     gender=db.Column(db.String(6))
     title=db.Column(db.String(10))
@@ -36,7 +40,8 @@ class Employee(db.Model):
     location_rel=db.relationship('Location', backref='employees_location')
     equipment_rel=db.relationship('Equipment', backref='equipment_employee')
     
-    def __init__(self, employee_name, gender, title, type, phone_number, department, location):
+    def __init__(self, employee_name, password, gender, title, type, phone_number, department, location):
+        self.password=password
         self.employee_name=employee_name
         self.gender=gender
         self.title=title
@@ -99,6 +104,41 @@ def create_table():
 def index():
     return render_template('index.html')
     
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    employees = Employee.query.all()
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        login = request.form['loging'] 
+        emp = Employee.query.filter_by(employee_name=username, type=login).first()
+        print(emp)
+        if emp is None or not bcrypt.verify(password, emp.password):
+            flash('Wrong username or password. Please try again.', 'error')
+            return render_template('login.html')
+        global keeper
+        keeper = emp.employee_name
+        employees = Employee.query.all()
+        employee_count = len(employees)
+        purchases = Purchase.query.all()
+        purchase_count = len(purchases)
+        locations = Location.query.all()
+        location_count = len(locations)
+        equipment = Equipment.query.all()
+        equipment_count = len(equipment)
+
+        return render_template('main.html', 
+        employees = employees, employee_count=employee_count,
+        purchases = purchases, purchase_count=purchase_count,
+        locations = locations, location_count=location_count,
+        equipment = equipment, equipment_count=equipment_count,
+        name=keeper
+        )
+
+
 @app.route('/entry_point')
 def entry_point():
     employees = Employee.query.all()
@@ -114,14 +154,9 @@ def entry_point():
     employees = employees, employee_count=employee_count,
     purchases = purchases, purchase_count=purchase_count,
     locations = locations, location_count=location_count,
-    equipment = equipment, equipment_count=equipment_count
+    equipment = equipment, equipment_count=equipment_count,
+    name=keeper
     )
-
-
-@app.route('/login')
-def login():
-    return render_template('login.html')
-
 
 @app.route('/location')
 def location():
@@ -159,6 +194,8 @@ def add_employee_details():
     if request.method == 'POST':
         # Handle the form submission
         employee_name = request.form['employee_name']
+        password= request.form['password']
+        hashed_password = bcrypt.hash(password)
         gender = request.form['gender']
         title = request.form['title']
         type = request.form['type']
@@ -167,6 +204,7 @@ def add_employee_details():
         location = request.form['location']
         employee = Employee(
             employee_name=employee_name,
+            password=hashed_password,
             gender=gender,
             title=title,
             type=type,
@@ -351,17 +389,17 @@ def search():
     elif entity == 'employee':
         data = Employee.query.filter(Employee.employee_name.contains(query)).all()
         res = jsonify([{ 
-            "employee_name": r.employee_name, "gender": r.gender, "title": r.title, "type": r.type, "phone_number": r.phone_number, "department": r.department, "location_id": r.location_id
+            "employee_name": r.employee_name, "gender": r.gender, "title": r.title, "type": r.type, "phone_number": r.phone_number, "department": r.department, "location": r.location
         } for r in data])
 
     elif entity == 'equipment':
         data = Equipment.query.filter(Equipment.type.contains(query)).all()
         res = jsonify([{ 
-            "type": r.type, "serial_number": r.serial_number, "model_number": r.model_number, "purchase_date": r.purchase_date, "employee": r.employee, "location_id": r.location_id
+            "type": r.type, "serial_number": r.serial_number, "model_number": r.model_number, "purchase_date": r.purchase_date, "employee": r.employee, "location": r.location
         } for r in data])
 
     elif entity == 'purchase':
-        data = Purchases.query.filter(Purchases.store.contains(query)).all()
+        data = Purchase.query.filter(Purchase.store.contains(query)).all()
         res = jsonify([{ 
             "date": r.date, "store": r.store, "warranty_period": r.warranty_period, 
         } for r in data])

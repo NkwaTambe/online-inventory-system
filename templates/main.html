@@ -6,22 +6,21 @@
     <title>Online Inventory System</title>
     <link
     rel="stylesheet"
-    href="{{ url_for('static', filename='main.css') }}"
+    href="{{ url_for('static', filename='main1.css') }}"
     />
     <script src="{{ url_for('static', filename='index.js') }}"></script>
 </head>
 <body>
     <div class="header">
-      <a href="#" id="sidebar-icon">&#9666;</a>
-        <input type="search" id="query" name="search" placeholder="Search..." style="margin-left: 70px;">
-        <button>Submit</button>
-        <a href="#"><img src="{{ url_for('static', filename='logo.png') }}" alt=""></a>
+      <a href="#" id="sidebar-icon">&#8801;</a>
+      <span id="login-name">{{ name }}</span>
+      <a href="#"><img src="{{ url_for('static', filename='logimg.jpg') }}" alt="" class="logimg" style="background: red;"></a>
     </div>
 
     <!--sidebar section-->
     <section class="sidebar">
         <div class="logo">
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
+          <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
         </div>
         <div class="content">
             <a href="/entry_point" class="home active">Home</a>
@@ -32,8 +31,8 @@
             <a href="/login" class="home">Logout</a>
         </div>
     </section>
-
-    <h1>Welcome To Our Online Inventory System</h1>
+    
+    <h1 class="mytitle">Welcome To Our Online Inventory System</h1>
     <div class="cards">
         <div class="card" id="card1">
           <h3>N° of Equipment</h3>
@@ -57,5 +56,25 @@
         </div>
       </div>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          var sidebarIcon = document.getElementById("sidebar-icon");
+          var sidebar = document.querySelector(".sidebar");
+          var cards = document.querySelector(".cards");
+          var mytitle = document.querySelector(".mytitle");
+
+          sidebarIcon.addEventListener("click", function() {
+              sidebar.classList.toggle("show");
+              cards.classList.toggle("full-width");
+              mytitle.classList.toggle("test");
+
+              if (sidebar.classList.contains("show")) {
+                sidebarIcon.innerHTML = "&#8801;"; // Change the icon to &#9666; when the sidebar is shown
+              } else {
+                sidebarIcon.innerHTML = "&#8801;"; // Change the icon to &#x2630; when the sidebar is hidden
+              }
+          });
+        });
+      </script>
 </body>
 </html>

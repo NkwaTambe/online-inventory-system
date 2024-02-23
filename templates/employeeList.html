@@ -26,7 +26,7 @@
                     <td>${ employee.type}</td>
                     <td>${ employee.phone_number}</td>
                     <td>${ employee.department}</td>
-                    <td>${ employee.location_id}</td>
+                    <td>${ employee.location}</td>
                     <td class="action">
                       <a href="/edit_employee/employee.id"><i class="fa fa-edit" style="font-size:24px"></i></a>
                       <a href="/delete_employee/employee.id"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
@@ -41,9 +41,10 @@
   </head>
 <body>
     <div class="header"> 
-        <input type="search" id="query" name="search" placeholder="Search by Employee Name...">
-        <button id="search-button">Submit</button>
-        <a href="#"><img src="{{ url_for('static', filename='logo.png') }}" alt=""></a>
+      <a href="#" id="sidebar-icon">&#8801;</a>
+      <input type="search" id="query" name="search" placeholder="Search by Employee Name...">
+      <button id="search-button">Submit</button>
+      <a href="#"><img src="{{ url_for('static', filename='logo.png') }}" alt=""></a>
     </div>
 
     <!--sidebar section-->
@@ -64,9 +65,7 @@
     <!-- <marquee behavior="alternate" direction="right" scrollamount="10" margin-left="-300px" margin-right="300px">
       <h1>Welcome To Our Online Inventory System</h1>
     </marquee> -->
-    <div class="marquee-container">
-      <h1 class="marquee">Welcome To Our Online Inventory System</h1>
-    </div>
+    <h1 class="marquee">List of Employees</h1>
     <div class="location-form">
       <a href="/add-employee" class="btn1">Add Employee</a>
       <table border="1" style="overflow:auto;">
@@ -95,12 +94,32 @@
               <td class="action">
                 <a href="/edit_employee{{ employee.id }}"><i class="fa fa-edit" style="font-size:24px"></i></a>
                 <a href="/delete_employee{{ employee.id }}"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
-                <a href="#" class="add-equipment">Assign Equipment</a>
               </td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        var sidebarIcon = document.getElementById("sidebar-icon");
+        var sidebar = document.querySelector(".sidebar");
+        var locationform = document.querySelector(".location-form");
+        var marquee = document.querySelector(".marquee");
+
+        sidebarIcon.addEventListener("click", function() {
+            sidebar.classList.toggle("show");
+            locationform.classList.toggle("full-width");
+            marquee.classList.toggle("test");
+
+
+            if (sidebar.classList.contains("show")) {
+              sidebarIcon.innerHTML = "&#8801;"; // Change the icon to &#9666; when the sidebar is shown
+            } else {
+              sidebarIcon.innerHTML = "&#8801;"; // Change the icon to &#x2630; when the sidebar is hidden
+            }
+        });
+      });
+    </script>
 </body>
 </html>

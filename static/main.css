@@ -6,9 +6,8 @@ body {
 
 .header {
   background: #c6e8f6;
-  /* display: flex; */
-  /* justify-content: flex-end; */
   padding: 25px;
+  /* display: flex; */
 }
 
 .header input{
@@ -16,7 +15,7 @@ body {
   font-size: 20px;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border-radius: 5px;
-  margin-left: 350px;
+  margin-left: 400px;
 }
 
 .header button{
@@ -48,10 +47,11 @@ body {
 #sidebar-icon {
   content: "\25C2";
   margin-left: 300px;
-  font-size: 40px;
+  font-size: 45px;
   border-radius: 5px;
   text-decoration: none;
   color: #000;
+  font-weight: bold;
 }
 
 
@@ -73,6 +73,7 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 
 .logo img {
   width: 250px;
@@ -130,56 +131,6 @@ h1{
   color: rgb(12, 94, 94);
 }
 
-
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 50px;
-  margin-left: 300px;
-  margin-top: 100px;
-}
-  
-.card {
-  width: 300px;
-  background-color: #f2f2f2;
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
-}
-
-#card1{
-  background: #e2d134;
-}
-
-#card2{
-  background: #49af57;
-}
-
-#card3{
-  background: #965e29;
-}
-
-#card4{
-  background: #46829c;
-}
-
-.card h3 {
-  font-size: 25px;
-}
-
-.card p {
-  font-size: 50px;
-  margin: 10px;
-  font-weight: bold;
-  background: #d9d1d1;
-  padding: 10px 0px;
-  text-decoration: none;
-}
-
-.card a{
-  text-decoration: none;
-}
 
 .location-form {
   display: flex;
@@ -249,14 +200,10 @@ tbody tr:nth-child(even) {
 }
 
 .marquee {
-  animation: marquee 20s linear infinite;
-  white-space: nowrap;
-}
+  text-align: center;
+} 
 
-@keyframes marquee {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
+
 .action a{
   margin-left: 10px;
 }
@@ -265,13 +212,32 @@ tbody tr:nth-child(even) {
   color: red;
 }
 
-.add-equipment{
-  background: rgb(24, 83, 24);
-  color: #fff;
-  font-size: 1em;
-  text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 10px;
-  transition: background-color 0.25s;
-  font-weight: bold;
+.sidebar.show {
+  transform: translateX(-100%);
+}
+
+.location-form.full-width {
+  margin-left: 0;
+}
+
+.purchase-form.full-width {
+  margin-left: 0;
+}
+
+.marquee.test{
+  margin-left: 0;
+}
+
+@media only screen and (max-width: 768px) {
+  /* Adjust styles for smaller screens */
+  .location-form.full-width {
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  /* Adjust styles for smaller screens */
+  .purchase-form.full-width {
+    margin-left: 10px;
+  }
 }
