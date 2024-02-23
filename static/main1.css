@@ -11,8 +11,6 @@ body {
   
   .header {
     background: #c6e8f6;
-    /* display: flex; */
-    /* justify-content: flex-end; */
     padding: 25px;
   }
   
@@ -53,19 +51,22 @@ body {
   #sidebar-icon {
     content: "\25C2";
     margin-left: 300px;
-    font-size: 40px;
-    border-radius: 5px;
+    font-size: 45px;
     text-decoration: none;
     color: #000;
+    font-weight: bold;
   }
 
 #login-name{
-    margin-right: 50px;
+    margin-right: 150px;
     float: right;
     padding: auto;
     font-size: 30px;
     font-weight: bold;
-    margin-top: 12px;
+    margin-bottom: 12px;
+    top: 10;
+    right: 0%;
+    position: absolute;
 }
   
 
@@ -78,6 +79,7 @@ body {
     background: #707576;
     border-top: 5px solid #fff;
   }
+  
   
   .logo {
     width: 300px;
@@ -280,3 +282,34 @@ body {
     color: red;
   }
   
+  .sidebar.show {
+    transform: translateX(-100%);
+  }
+
+  @media only screen and (max-width: 576px) {
+    #login-name {
+      margin-left: 18px;
+      position: absolute;
+      left: 0%;
+      top: 5%;
+    }
+
+    .logimg{
+      display: none;
+    }
+  }
+
+  .cards.full-width {
+    margin-left: 0;
+  }
+
+  .mytitle.test{
+    margin-left: 0;
+  }
+
+  @media only screen and (max-width: 768px) {
+    /* Adjust styles for smaller screens */
+    .cards.full-width {
+      margin-left: 10px;
+    }
+  }

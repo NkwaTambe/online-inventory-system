@@ -7,12 +7,9 @@ body{
 }
 
 .marquee {
-    /* animation: marquee 15s linear infinite; */
-    white-space: nowrap;
     color: #e6ff04;
     font-size: 3em;
-    /* display: flex; */
-    margin-top: 80px;
+    margin-top: 100px;
     text-align: center;
 }
 
@@ -31,7 +28,7 @@ body{
 }
 
 .mybtn {
-    background: #3366fc;
+    background: #c6d351;
     color: #fff;
     font-size: 2em;
     text-decoration: none;
@@ -49,5 +46,47 @@ body{
 
 .mybtn:hover{
     color: #fff;
-    background: #0736c2;
+    background: #42558d;
 }
+
+@media (min-width: 368px) {
+    body{
+        width: auto;
+        height: 100vh;
+        overflow-y: hidden;
+    }
+}
+
+@media (max-width: 578px) {
+    body{
+        width: auto;
+        height: 100vh;
+        overflow-y: hidden;
+    }
+
+    .marquee {
+        font-size: 2em;
+    }
+
+    .mytext{
+        font-size: 1.5em;
+    }
+
+    .mybtn{
+        background: #c6d351;
+        color: #fff;
+        font-size: 2em;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        transition: background-color 0.25s;
+        font-weight: bold;
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 250px;
+        text-align: center;
+    }
+}
+
