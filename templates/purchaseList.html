@@ -10,7 +10,7 @@
     />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+ 
     <script>
         $(document).ready(function(){
            $('#search-button').on('click', function(){
@@ -24,8 +24,8 @@
                         <td>${ purchase.store }</td>
                         <td>${ purchase.warranty_period }</td>   
                         <td class="action">
-                            <a href="/edit_purchase/purchase.id"><i class="fa fa-edit" style="font-size:24px"></i></a>
-                            <a href="/delete_purchase/purchase.id"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
+                            <a href="/edit_purchase/${ purchase.id }"><i class="fa fa-edit" style="font-size:24px"></i></a>
+                            <a href="/delete_purchase/${ purchase.id }"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
                         </td>
                     </tr>
                     `);

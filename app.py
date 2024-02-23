@@ -271,7 +271,7 @@ def add_purchase_details():
         return redirect('/purchase')
     
 
-@app.route('/edit_purchase<int:id>', methods=['GET' ,'POST' ])
+@app.route('/edit_purchase/<int:id>', methods=['GET' ,'POST' ])
 def edit_purchase(id):
     purchase = Purchase.query.get(id)
     if request.method == 'GET':
@@ -285,7 +285,7 @@ def edit_purchase(id):
         return redirect('/purchase')
 
 
-@app.route('/delete_purchase<int:id>')
+@app.route('/delete_purchase/<int:id>')
 def delete_purchase(id):
     purchase = Purchase.query.get_or_404(id)
     db.session.delete(purchase)
@@ -293,7 +293,7 @@ def delete_purchase(id):
     return redirect('/purchase')    
 
 
-@app.route('/edit_location<int:id>', methods=['GET' ,'POST' ])
+@app.route('/edit_location/<int:id>', methods=['GET' ,'POST' ])
 def edit_location(id):
     location = Location.query.get(id)
     if request.method == 'GET':
@@ -306,7 +306,7 @@ def edit_location(id):
         db.session.commit()
         return redirect('/location')
 
-@app.route('/edit_employee<int:id>', methods=['GET' ,'POST' ])
+@app.route('/edit_employee/<int:id>', methods=['GET' ,'POST' ])
 def edit_employee(id):
     locations = Location.query.all()
     employee = Employee.query.get(id)
@@ -324,7 +324,7 @@ def edit_employee(id):
         db.session.commit()
         return redirect('/employee')
 
-@app.route('/edit_equipment<int:barcode_number>',  methods=['GET' ,'POST' ])
+@app.route('/edit_equipment/<int:barcode_number>',  methods=['GET' ,'POST' ])
 def edit_equipment(barcode_number):
     locations = Location.query.all()
     employees = Employee.query.all()
@@ -343,21 +343,21 @@ def edit_equipment(barcode_number):
         db.session.commit()
         return redirect('/equipment')
 
-@app.route('/delete_location<int:id>')
+@app.route('/delete_location/<int:id>')
 def delete_location(id):
     location = Location.query.get_or_404(id)
     db.session.delete(location)
     db.session.commit()
     return redirect('/location')
     
-@app.route('/delete_employee<int:id>')
+@app.route('/delete_employee/<int:id>')
 def delete_employee(id):
     employee = Employee.query.get_or_404(id)
     db.session.delete(employee)
     db.session.commit()
     return redirect('/employee')
 
-@app.route('/delete_equipment<int:barcode_number>')
+@app.route('/delete_equipment/<int:barcode_number>')
 def delete_equipment(barcode_number):
     equipment = Equipment.query.get_or_404(barcode_number)
     db.session.delete(equipment)
@@ -383,25 +383,44 @@ def search():
     if entity == 'location':
         data = Location.query.filter(Location.location_name.contains(query)).all()
         res = jsonify([{ 
-            "location_name": r.location_name, "number_of_offices": r.number_of_offices, "head_quater_contact": r.number_of_offices
+            "location_name": r.location_name, 
+            "number_of_offices": r.number_of_offices, 
+            "head_quater_contact": r.number_of_offices,
+            "id": r.id
         } for r in data])
 
     elif entity == 'employee':
         data = Employee.query.filter(Employee.employee_name.contains(query)).all()
         res = jsonify([{ 
-            "employee_name": r.employee_name, "gender": r.gender, "title": r.title, "type": r.type, "phone_number": r.phone_number, "department": r.department, "location": r.location
+            "employee_name": r.employee_name, 
+            "gender": r.gender, 
+            "title": r.title, 
+            "type": r.type, 
+            "phone_number": r.phone_number, 
+            "department": r.department, 
+            "location": r.location,
+            "id": r.id 
         } for r in data])
 
     elif entity == 'equipment':
         data = Equipment.query.filter(Equipment.type.contains(query)).all()
         res = jsonify([{ 
-            "type": r.type, "serial_number": r.serial_number, "model_number": r.model_number, "purchase_date": r.purchase_date, "employee": r.employee, "location": r.location
+            "type": r.type, 
+            "serial_number": r.serial_number, 
+            "model_number": r.model_number, 
+            "purchase_date": r.purchase_date, 
+            "employee": r.employee, 
+            "location": r.location,
+            "barcode_number": r.barcode_number
         } for r in data])
 
     elif entity == 'purchase':
         data = Purchase.query.filter(Purchase.store.contains(query)).all()
         res = jsonify([{ 
-            "date": r.date, "store": r.store, "warranty_period": r.warranty_period, 
+            "date": r.date, 
+            "store": r.store, 
+            "warranty_period": r.warranty_period, 
+            "id": r.id
         } for r in data])
         
     else:
