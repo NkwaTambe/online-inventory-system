@@ -271,6 +271,7 @@ def add_purchase_details():
         return redirect('/purchase')
     
 
+@app.route('/edit_purchase<int:id>', methods=['GET' ,'POST' ])
 @app.route('/edit_purchase/<int:id>', methods=['GET' ,'POST' ])
 def edit_purchase(id):
     purchase = Purchase.query.get(id)
@@ -285,6 +286,7 @@ def edit_purchase(id):
         return redirect('/purchase')
 
 
+@app.route('/delete_purchase<int:id>')
 @app.route('/delete_purchase/<int:id>')
 def delete_purchase(id):
     purchase = Purchase.query.get_or_404(id)
@@ -293,6 +295,7 @@ def delete_purchase(id):
     return redirect('/purchase')    
 
 
+@app.route('/edit_location<int:id>', methods=['GET' ,'POST' ])
 @app.route('/edit_location/<int:id>', methods=['GET' ,'POST' ])
 def edit_location(id):
     location = Location.query.get(id)
@@ -306,6 +309,7 @@ def edit_location(id):
         db.session.commit()
         return redirect('/location')
 
+@app.route('/edit_employee<int:id>', methods=['GET' ,'POST' ])
 @app.route('/edit_employee/<int:id>', methods=['GET' ,'POST' ])
 def edit_employee(id):
     locations = Location.query.all()
@@ -324,6 +328,7 @@ def edit_employee(id):
         db.session.commit()
         return redirect('/employee')
 
+@app.route('/edit_equipment<int:barcode_number>',  methods=['GET' ,'POST' ])
 @app.route('/edit_equipment/<int:barcode_number>',  methods=['GET' ,'POST' ])
 def edit_equipment(barcode_number):
     locations = Location.query.all()
@@ -343,6 +348,7 @@ def edit_equipment(barcode_number):
         db.session.commit()
         return redirect('/equipment')
 
+@app.route('/delete_location<int:id>')
 @app.route('/delete_location/<int:id>')
 def delete_location(id):
     location = Location.query.get_or_404(id)
@@ -350,6 +356,7 @@ def delete_location(id):
     db.session.commit()
     return redirect('/location')
     
+@app.route('/delete_employee<int:id>')
 @app.route('/delete_employee/<int:id>')
 def delete_employee(id):
     employee = Employee.query.get_or_404(id)
@@ -357,6 +364,7 @@ def delete_employee(id):
     db.session.commit()
     return redirect('/employee')
 
+@app.route('/delete_equipment<int:barcode_number>')
 @app.route('/delete_equipment/<int:barcode_number>')
 def delete_equipment(barcode_number):
     equipment = Equipment.query.get_or_404(barcode_number)
