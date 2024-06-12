@@ -1,0 +1,35 @@
+services:
+  postgres_db:
+    container_name: postgres_db
+    image: postgres
+    ports: 
+      - 5432:5432
+    restart: always
+    environment:
+        - POSTGRES_DB=oisdb
+        - POSTGRES_PASSWORD=root
+        - POSTGRES_USER=root
+
+#  Defining a container for adminer to be able to query and manage our db
+  adminer:
+    container_name: adminer_db_tool
+    image: adminer
+    restart: always
+    depends_on:
+      - postgres_db # depends on the service postgres_db
+    ports: 
+      - 8080:8080
+
+  online_inventory_system:
+    container_name: online_inventory_system
+    image: online_inventory_system_image:latest
+    build: .
+    ports:
+      - 5000:5000
+
+    environment:
+      - DATABASE_URL=jdbc:postgresql://postgres_db:5432/oisdb
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=root
+    depends_on:
+      - postgres_db # depends on the service postgres_db
